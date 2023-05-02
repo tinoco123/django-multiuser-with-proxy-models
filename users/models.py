@@ -79,7 +79,7 @@ class AdministradorManager(models.Manager):
             raise ValueError("El campo de contraseña es requerido")
 
         email = email.lower()
-        user = self.model(email=self.normalize_email(email), name=name, lastname=lastname, password=password)
+        user = self.model(email=email.lower(), name=name, lastname=lastname, password=password)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -110,7 +110,7 @@ class UsuarioManager(models.Manager):
             raise ValueError("El campo de contraseña es requerido")
 
         email = email.lower()
-        user = self.model(email=self.normalize_email(email), name=name, lastname=lastname, password=password)
+        user = self.model(email=email.lower(), name=name, lastname=lastname, password=password)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -140,7 +140,7 @@ class ClienteManager(models.Manager):
             raise ValueError("El campo de contraseña es requerido")
 
         email = email.lower()
-        user = self.model(email=self.normalize_email(email), name= name, lastname=lastname, password=password)
+        user = self.model(email=email.lower(), name= name, lastname=lastname, password=password)
         user.set_password(password)
         user.save(using=self._db)
         return user
