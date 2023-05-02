@@ -11,7 +11,7 @@ class UserAccountManager(BaseUserManager):
         if not password or len(password) <= 0:
             raise ValueError("El campo de contraseña es requerido")
 
-        user = self.model(email=self.normalize_email(email), name= name, lastname=lastname)
+        user = self.model(email=self.normalize_email(email), name=name, lastname=lastname)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -33,7 +33,7 @@ class UserAccount(AbstractBaseUser):
         CLIENTE = "CLIENTE", "cliente"
 
     category = models.CharField(
-        max_length=13, choices=Categories.choices, default=Categories.ADMINISTRADOR)
+        max_length=13, choices=Categories.choices)
     email = models.EmailField(
         max_length=64, unique=True, blank=False, null=False)
     name = models.CharField(max_length=30, blank=False, null=False)
@@ -57,16 +57,17 @@ class UserAccount(AbstractBaseUser):
     is_cliente = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
-    
+    REQUIRED_FIELDS = ["name", "lastname"]
     objects = UserAccountManager()
 
     def __str__(self):
         return str(self.email)
-
-    def save(self, *args, **kwargs):
-        if not self.category or self.category == None:
-            self.category = UserAccount.Categories.ADMINISTRADOR
-        return super().save(*args, **kwargs)
+    
+    def has_perm(self , perm, obj = None):
+        return self.is_admin
+      
+    def has_module_perms(self , app_label):
+        return True
 
 
 class AdministradorManager(models.Manager):
