@@ -3,13 +3,11 @@ from .models import UserAccount
 from django.contrib.auth import login, logout, authenticate
 
 # Create your views here.
-def homepage(request):
-    return redirect('sign_in')
 
 def sign_in(request):
     if request.method == "GET":
-        if request.user.is_authenticated:
-            return HttpResponse("Ya estas logeado")
+        if request.user.is_authenticated and not request.user.is_superuser:
+            return HttpResponse('ya estas logeado')
         else:
             return render(request, 'login.html', {
                 'title': 'Login'
@@ -25,9 +23,20 @@ def sign_in(request):
             })
         else:
             login(request, user)
-            return HttpResponse(user.get_username() + " " + user.category)
+            if user.is_administrador:
+                return render(request, 'usuarios.html', {
+                    'title': 'Lista de usuarios'
+                })
+            elif user.is_usuario:
+                return render(request, 'clientes.html', {
+                    'title': 'Lista de usuarios'
+                })
+            elif user.is_cliente:
+                return HttpResponse("Lista de keywords")
 
 
 def sign_out(request):
     logout(request)
     return redirect('sign_in')
+
+
