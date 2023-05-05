@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import UserAccount
 from django.contrib.auth import login, logout, authenticate
 
 # Create your views here.
@@ -24,9 +23,7 @@ def sign_in(request):
         else:
             login(request, user)
             if user.is_administrador:
-                return render(request, 'usuarios.html', {
-                    'title': 'Lista de usuarios'
-                })
+                return redirect('listar_usuarios')
             elif user.is_usuario:
                 return render(request, 'clientes.html', {
                     'title': 'Lista de usuarios'

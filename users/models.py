@@ -1,6 +1,6 @@
 from django.db import models
 # Create your models here.
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db.models.query import QuerySet
 
 
@@ -25,7 +25,7 @@ class UserAccountManager(BaseUserManager):
         return user
 
 
-class UserAccount(AbstractBaseUser):
+class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     class Categories(models.TextChoices):
         ADMINISTRADOR = "ADMINISTRADOR", "administrador"
