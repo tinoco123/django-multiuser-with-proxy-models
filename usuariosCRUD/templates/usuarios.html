@@ -10,6 +10,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/table.css' %}">
+	<link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 	
 	<!--[if !IE]><!-->
 	<style>
@@ -159,8 +161,9 @@
 				<td>{{ usuario.company }}</td>
 				<td>{{ usuario.date_joined }}</td>
 				<td>
-					<button>Eliminar</button>
-					<button>Editar</button>
+					<a><i class='bx bx-trash'></i></a>
+
+					<a href="{% url 'editar_usuario' usuario.id %}"><i class='bx bx-edit-alt'></i></a>
 				</td>
 			</tr>
 			{% endfor %}

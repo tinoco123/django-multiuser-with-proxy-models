@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from users.models import Usuario
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 
 # Create your views here.
 @login_required
@@ -37,4 +37,10 @@ def agregar_usuario(request):
         except IntegrityError:
             return render(request, 'usuarios.html', {
                     'error': "Username already exists",
-                }) 
+                })
+    else:
+        return redirect('listar_usuarios') 
+        
+@login_required
+def editar_usuario(request, usuario_id):
+    return HttpResponse(usuario_id)
