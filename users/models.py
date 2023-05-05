@@ -5,19 +5,19 @@ from django.db.models.query import QuerySet
 
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, name, lastname, password=None):
+    def create_user(self, email, name, lastname, password=None, **extra_fields):
         if not email or len(email) <= 0:
             raise ValueError("El campo de email es requerido")
         if not password or len(password) <= 0:
             raise ValueError("El campo de contraseña es requerido")
 
-        user = self.model(email=self.normalize_email(email), name=name, lastname=lastname)
+        user = self.model(email=self.normalize_email(email), name=name, lastname=lastname, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, name, lastname, password=None):
-        user = self.create_user(email=self.normalize_email(email), name= name, lastname=lastname, password=password)
+    def create_superuser(self, email, name, lastname, password=None, **extra_fields):
+        user = self.create_user(email=self.normalize_email(email), name= name, lastname=lastname, password=password, **extra_fields)
         user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
@@ -72,14 +72,14 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
 class AdministradorManager(models.Manager):
 
-    def create_user(self, email, name, lastname, password=None):
+    def create_user(self, email, name, lastname, password=None, **extra_fields):
         if not email or len(email) <= 0:
             raise ValueError("El campo de email es requerido")
         if not password:
             raise ValueError("El campo de contraseña es requerido")
 
         email = email.lower()
-        user = self.model(email=email.lower(), name=name, lastname=lastname, password=password)
+        user = self.model(email=email.lower(), name=name, lastname=lastname, password=password, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -103,14 +103,14 @@ class Administrador(UserAccount):
 
 
 class UsuarioManager(models.Manager):
-    def create_user(self, email, name, lastname, password=None):
+    def create_user(self, email, name, lastname, password=None, **extra_fields):
         if not email or len(email) <= 0:
             raise ValueError("El campo de email es requerido")
         if not password:
             raise ValueError("El campo de contraseña es requerido")
 
         email = email.lower()
-        user = self.model(email=email.lower(), name=name, lastname=lastname, password=password)
+        user = self.model(email=email.lower(), name=name, lastname=lastname, password=password, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -133,14 +133,14 @@ class Usuario(UserAccount):
 
 
 class ClienteManager(models.Manager):
-    def create_user(self, email, name, lastname, password=None):
+    def create_user(self, email, name, lastname, password=None, **extra_fields):
         if not email or len(email) <= 0:
             raise ValueError("El campo de email es requerido")
         if not password:
             raise ValueError("El campo de contraseña es requerido")
 
         email = email.lower()
-        user = self.model(email=email.lower(), name= name, lastname=lastname, password=password)
+        user = self.model(email=email.lower(), name= name, lastname=lastname, password=password, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user

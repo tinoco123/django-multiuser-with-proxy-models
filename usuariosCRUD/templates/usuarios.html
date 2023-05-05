@@ -8,7 +8,7 @@
 	<title>Responsive Table</title>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/table.css' %}">
 	
 	<!--[if !IE]><!-->
@@ -98,6 +98,39 @@
 	<div id="page-wrap">
 
 	<h1>Usuarios</h1>
+	<h2>{{ error }}</h2>
+	<button id="abrirModal">Agregar usuario</button>
+	<div id="ventanaModal" class="modal">
+		<div class="contenido-modal">
+			<span class="cerrar">&times;</span>
+			<h2>Agregar usuario</h2>
+			<form  method="POST" action="/usuarios/agregar">
+				{% csrf_token %}
+				<label for="nombre">Nombre:</label>
+				<input type="text" id="nombre" name="name" required>
+		  
+				<label for="apellidos">Apellidos:</label>
+				<input type="text" id="apellidos" name="lastname" required>
+		  
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" required>
+		  
+				<label for="contraseña">Contraseña:</label>
+				<input type="password" id="contraseña" name="password" required>
+		  
+				<label for="edad">Edad:</label>
+				<input type="number" id="edad" name="age" required>
+		  
+				<label for="direccion">Dirección:</label>
+				<input type="text" id="direccion" name="address" required>
+		  
+				<label for="compañia">Compañía:</label>
+				<input type="text" id="compañia" name="company" required>
+		  
+				<input type="submit" value="Agregar Usuario">
+			  </form>
+		</div>
+	  </div>
     
 	<table>
 		<thead>
@@ -139,7 +172,7 @@
 	</table>
 	
 	</div>
-		
+	<script src="{% static 'js/main.js' %}"></script>
 </body>
 
 </html>
